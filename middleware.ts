@@ -9,7 +9,7 @@ export default async function middleware(req: NextRequest) {
 
   const session = await getSession();
   if (!isPublicRoute && !session) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+    return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
   }
 
   return NextResponse.next();
