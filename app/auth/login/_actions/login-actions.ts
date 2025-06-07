@@ -3,7 +3,7 @@
 import { LoginFormSchema, LoginFormState } from "@/lib/definitions";
 import { db } from "@/db/drizzle";
 import { user } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { verify } from "@/lib/password";
 import { createSession } from "@/lib/session";
 
@@ -33,6 +33,11 @@ export async function login(state: LoginFormState, formData: FormData) {
       name: foundUser.name,
       role: foundUser.role,
     });
+
+    await db
+      .update(user)
+      .set({ last_login_at: sql`now()` })
+      .where(eq(user.id, foundUser.id));
 
     return {
       errors: undefined,
