@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute="data-mode" defaultTheme="dark">
           <header>
-            <Toaster position="top-right" theme="light" />
+            <Toaster position="top-right" theme="dark" />
           </header>
           <div>{children}</div>
         </ThemeProvider>
