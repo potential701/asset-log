@@ -4,6 +4,7 @@ import React, { forwardRef } from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
 import Image from "next/image";
+import { UserIcon } from "@heroicons/react/16/solid";
 
 type AvatarProps = {
   src?: string | null;
@@ -34,7 +35,7 @@ export function Avatar({
         square ? "rounded-(--avatar-radius) *:rounded-(--avatar-radius)" : "rounded-full *:rounded-full",
       )}
     >
-      {initials && (
+      {initials ? (
         <svg
           className="size-full fill-current p-[5%] text-[48px] font-medium uppercase select-none"
           viewBox="0 0 100 100"
@@ -45,6 +46,8 @@ export function Avatar({
             {initials}
           </text>
         </svg>
+      ) : (
+        <UserIcon className="size-full p-1 text-white" />
       )}
       {src && <Image className="size-full" src={src} alt={alt} />}
     </span>
