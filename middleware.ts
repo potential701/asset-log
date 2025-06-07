@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 
-const publicRoutes = ["/login", "/signup"];
+const publicRoutes = ["/auth/login", "/auth/signup"];
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
@@ -9,7 +9,7 @@ export default async function middleware(req: NextRequest) {
 
   const session = await getSession();
   if (!isPublicRoute && !session) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+    return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
   }
 
   return NextResponse.next();
