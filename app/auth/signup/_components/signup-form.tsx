@@ -21,7 +21,7 @@ export default function SignupForm() {
 
   useEffect(() => {
     if (state?.message && !state.success) {
-      toast.message(state.message);
+      toast.error(state.message);
     }
 
     if (state?.success) {
