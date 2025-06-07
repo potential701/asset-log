@@ -26,7 +26,7 @@ export default function SignupForm() {
 
     if (state?.success) {
       toast.success(state.message);
-      router.push("/login");
+      router.push("/auth/login");
     }
   }, [router, state]);
 
