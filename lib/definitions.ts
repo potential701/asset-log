@@ -24,3 +24,19 @@ export type SignupFormState =
       success?: boolean;
     }
   | undefined;
+
+export const LoginFormSchema = z.object({
+  name: z.string().trim(),
+  password: z.string().trim(),
+});
+
+export type LoginFormState =
+  | {
+      errors?: {
+        name?: string[];
+        password?: string[];
+      };
+      message?: string;
+      success?: boolean;
+    }
+  | undefined;
