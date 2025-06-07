@@ -1,7 +1,11 @@
 import { text, pgTable, timestamp, pgEnum, integer } from "drizzle-orm/pg-core";
-import { InferSelectModel } from "drizzle-orm";
+import { Role } from "@/lib/enums";
 
-export const rolesEnum = pgEnum("roles", ["user", "admin"]);
+function enumToPgEnum<T extends Record<string, unknown>>(myEnum: T): [T[keyof T], ...T[keyof T][]] {
+  return Object.values(myEnum).map((value: unknown) => `${value}`) as unknown;
+}
+
+export const rolesEnum = pgEnum("roles", enumToPgEnum(Role));
 
 export const user = pgTable("user", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
