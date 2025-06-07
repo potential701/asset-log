@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 
-const publicRoutes = ["/login", "/signup"];
+const publicRoutes = ["/auth/login", "/auth/signup"];
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
