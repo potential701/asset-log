@@ -44,3 +44,8 @@ export async function getSession() {
 
   return session as SessionPayload;
 }
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+}
