@@ -18,17 +18,33 @@ export function PaginationPrevious({
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
     <span className={clsx(className, "grow basis-0")}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Previous page">
-        <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        {children}
-      </Button>
+      {href === null ? (
+        <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Previous page">
+          <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {children}
+        </Button>
+      ) : (
+        <Link href={href} scroll={false}>
+          <Button plain>
+            <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {children}
+          </Button>
+        </Link>
+      )}
     </span>
   );
 }
@@ -40,17 +56,33 @@ export function PaginationNext({
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
   return (
     <span className={clsx(className, "flex grow basis-0 justify-end")}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Next page">
-        {children}
-        <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </Button>
+      {href === null ? (
+        <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Next page">
+          {children}
+          <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </Button>
+      ) : (
+        <Link href={href} scroll={false}>
+          <Button plain>
+            {children}
+            <svg className="stroke-current" data-slot="icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Button>
+        </Link>
+      )}
     </span>
   );
 }
@@ -66,7 +98,7 @@ export function PaginationPage({
   children,
 }: React.PropsWithChildren<{ href: string; className?: string; current?: boolean }>) {
   return (
-    <Link href={href}>
+    <Link href={href} scroll={false}>
       <Button
         plain
         aria-label={`Page ${children}`}
