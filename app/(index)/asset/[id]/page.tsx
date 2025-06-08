@@ -4,7 +4,6 @@ import { asset, issue, log } from "@/db/schema";
 import { notFound } from "next/navigation";
 import { Heading } from "@/components/ui/heading";
 import { Divider } from "@/components/ui/divider";
-import { Strong, Text } from "@/components/ui/text";
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from "@/components/ui/description-list";
 import { format } from "date-fns";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -16,6 +15,9 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import DeleteAssetButton from "@/app/(index)/asset/[id]/delete-asset-button";
+import { getSession } from "@/lib/session";
+import { Role } from "@/lib/enums";
 
 export default async function Page({
   params,
@@ -28,7 +30,7 @@ export default async function Page({
   if (isNaN(parseInt(id))) return notFound();
 
   const selectedAsset = await db.query.asset.findFirst({ where: eq(asset.id, +id) });
-  if (!selectedAsset) return notFound();
+  if (!selectedAsset) return <main>Asset not found.</main>;
 
   const queryParams = await searchParams;
 
@@ -65,13 +67,13 @@ export default async function Page({
     where: and(eq(issue.asset_id, +id), eq(issue.is_resolved, false)),
   });
 
+  const session = await getSession();
+
   return (
     <main className="grid grid-cols-1 gap-8">
-      <header>
+      <header className="flex flex-row items-center justify-between">
         <Heading className="flex flex-row items-center justify-between">{selectedAsset.name}</Heading>
-        <Text>
-          Serial number: <Strong>{selectedAsset.serial_number}</Strong>
-        </Text>
+        {session?.role === Role.ADMIN && <DeleteAssetButton assetId={+id} />}
       </header>
       <Divider />
       <section className="grid grid-cols-1 gap-8 xl:grid-cols-2">

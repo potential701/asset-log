@@ -43,7 +43,7 @@ export const assetRelations = relations(asset, ({ many }) => ({
 export const log = pgTable("log", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   asset_id: integer("asset_id")
-    .references(() => asset.id)
+    .references(() => asset.id, { onDelete: "cascade" })
     .notNull(),
   user_id: integer("user_id")
     .references(() => user.id)
@@ -67,7 +67,7 @@ export const logRelations = relations(log, ({ one }) => ({
 export const issue = pgTable("issue", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   asset_id: integer("asset_id")
-    .references(() => asset.id)
+    .references(() => asset.id, { onDelete: "cascade" })
     .notNull(),
   user_id: integer("user_id")
     .references(() => user.id)
