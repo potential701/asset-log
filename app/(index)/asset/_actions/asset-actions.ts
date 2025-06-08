@@ -12,6 +12,7 @@ import { db } from "@/db/drizzle";
 import { revalidatePath } from "next/cache";
 import { eq, sql } from "drizzle-orm";
 import { AssetCondition, AssetStatus } from "@/lib/enums";
+import { redirect } from "next/navigation";
 
 export async function create(state: CreateAssetFormState, formData: FormData) {
   try {
@@ -133,4 +134,18 @@ export async function checkIn(state: ReturnAssetFormState, formData: FormData) {
       success: false,
     };
   }
+}
+
+export async function remove(state: GenericFormState, formData: FormData) {
+  try {
+    await db.delete(asset).where(eq(asset.id, +formData.get("id")!));
+  } catch {
+    return {
+      message: "There was an error removing an asset. Please try again.",
+      success: false,
+    };
+  }
+
+  revalidatePath("/asset");
+  redirect("/asset");
 }
