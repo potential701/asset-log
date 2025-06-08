@@ -49,7 +49,7 @@ export default async function Page() {
         </TableHead>
         <TableBody>
           {assets.map((asset) => (
-            <TableRow key={asset.id}>
+            <TableRow key={asset.id} href={`/asset/${asset.id}`}>
               <TableCell>{asset.id}</TableCell>
               <TableCell>{asset.name}</TableCell>
               <TableCell>{toTitleCase(asset.type)}</TableCell>
