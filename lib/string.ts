@@ -40,3 +40,28 @@ export function getInitials(input: string): string {
 
   return (firstInitial + lastInitial).toUpperCase();
 }
+
+/**
+ * Formats a number with commas and decimal places using Intl.NumberFormat
+ * @param input The number or string to format
+ * @param locale The locale to use for formatting (default: 'en-US')
+ * @param options The Intl.NumberFormatOptions to use for formatting
+ * @returns The formatted number as a string
+ */
+export function toFormattedNumber(
+  input: number | string | null | undefined,
+  locale: string = 'en-US',
+  options: Intl.NumberFormatOptions = {}
+): string {
+  // Handle null or undefined
+  if (input === null || input === undefined) return "";
+
+  // Convert string to number if needed
+  const num = typeof input === 'string' ? parseFloat(input) : input;
+
+  // Check if the result is a valid number
+  if (isNaN(num)) return "";
+
+  // Format the number using Intl.NumberFormat
+  return new Intl.NumberFormat(locale, options).format(num);
+}
