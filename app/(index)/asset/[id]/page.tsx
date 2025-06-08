@@ -75,7 +75,7 @@ export default async function Page({
       </header>
       <Divider />
       <section className="grid grid-cols-1 gap-8 xl:grid-cols-2">
-        <div>
+        <div className="grid grid-cols-1 gap-8">
           <Heading level={2}>Asset Information</Heading>
           <DescriptionList>
             <DescriptionTerm>Id</DescriptionTerm>
@@ -103,7 +103,7 @@ export default async function Page({
           </DescriptionList>
         </div>
         {logs.length > 0 && (
-          <div>
+          <div className="grid grid-cols-1 gap-8">
             <Heading level={2}>Asset Logs</Heading>
             <Table>
               <TableHead>
