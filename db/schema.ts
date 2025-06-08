@@ -22,6 +22,7 @@ export const user = pgTable("user", {
 
 export const userRelations = relations(user, ({ many }) => ({
   log: many(log),
+  issue: many(issue),
 }));
 
 export const asset = pgTable("asset", {
@@ -80,5 +81,9 @@ export const issueRelations = relations(issue, ({ one }) => ({
   asset: one(asset, {
     fields: [issue.asset_id],
     references: [asset.id],
+  }),
+  user: one(user, {
+    fields: [issue.user_id],
+    references: [user.id],
   }),
 }));
