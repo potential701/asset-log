@@ -1,12 +1,12 @@
 import { Heading } from "@/components/ui/heading";
 import { db } from "@/db/drizzle";
-import CreateAssetDialog from "@/app/(index)/asset/_components/create-asset-dialog";
+import CreateAssetDialog from "@/app/(app)/asset/create-asset-dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format, isAfter } from "date-fns";
 import { getSession } from "@/lib/session";
-import CheckOutButton from "@/app/(index)/asset/_components/check-out-button";
+import CheckOutButton from "@/app/(app)/asset/check-out-button";
 import { AssetCondition, AssetStatus } from "@/lib/enums";
-import ReturnAssetDialog from "@/app/(index)/asset/_components/return-asset-dialog";
+import ReturnAssetDialog from "@/app/(app)/asset/return-asset-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toTitleCase } from "@/lib/string";

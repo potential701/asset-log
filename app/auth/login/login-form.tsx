@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { login } from "@/app/auth/login/_actions/login-actions";
+import { login } from "@/app/auth/login/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Form from "next/form";

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useActionState, useEffect, useState } from "react";
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { create } from "@/app/(index)/asset/_actions/asset-actions";
+import { create } from "@/app/(app)/asset/actions";
 import Form from "next/form";
 import { Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";

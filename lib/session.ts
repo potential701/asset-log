@@ -1,7 +1,10 @@
 import "server-only";
 import { jwtVerify, SignJWT } from "jose";
-import { SessionPayload } from "@/lib/types/session-payload";
+import { SessionPayload } from "@/lib/types";
 import { cookies } from "next/headers";
+import { db } from "@/db/drizzle";
+import { user } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 const secretKey = process.env.SESSION_SECRET!;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -42,11 +45,15 @@ export async function getSession() {
   const sessionCookie = cookieStore.get("session")?.value;
   const session = await decrypt(sessionCookie);
 
-  if (!sessionCookie || !session) {
-    return null;
-  }
+  if (!sessionCookie || !session) return null;
 
-  return session as SessionPayload;
+  const sessionPayload = session as SessionPayload;
+
+  const dbData = await db.select().from(user).where(eq(user.id, sessionPayload.id));
+
+  if (dbData.length === 0) return null;
+
+  return sessionPayload;
 }
 
 export async function deleteSession() {

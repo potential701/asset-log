@@ -1,7 +1,7 @@
 import { SidebarLayout as CatalystSidebarLayout } from "@/components/ui/sidebar-layout";
 import { getSession } from "@/lib/session";
 import { getInitials } from "@/lib/string";
-import { Navbar, Sidebar } from "@/app/(index)/_components/navigation";
+import { Navbar, Sidebar } from "@/app/(app)/navigation";
 
 export default async function SidebarLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();

@@ -15,10 +15,10 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import DeleteAssetButton from "@/app/(index)/asset/[id]/delete-asset-button";
+import DeleteAssetButton from "@/app/(app)/asset/[id]/delete-asset-button";
 import { getSession } from "@/lib/session";
 import { Role } from "@/lib/enums";
-import ResolveIssueButton from "@/app/(index)/asset/[id]/resolve-issue-button";
+import ResolveIssueButton from "@/app/(app)/asset/[id]/resolve-issue-button";
 import { Button } from "@/components/ui/button";
 
 export default async function Page({
