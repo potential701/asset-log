@@ -61,7 +61,7 @@ export default async function Page() {
                     : asset.log[0].user.name}
               </TableCell>
               <TableCell>{asset.log[0] === undefined ? "-" : asset.log[0].return_condition}</TableCell>
-              <TableCell className="max-w-24">
+              <TableCell className="w-24">
                 {asset.log[0] === undefined ? (
                   <Button className="w-full">Check out</Button>
                 ) : (
