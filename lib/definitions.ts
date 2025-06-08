@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AssetStatus, AssetType, Role } from "@/lib/enums";
+import { AssetCondition, AssetStatus, AssetType, Role } from "@/lib/enums";
 
 export type GenericFormState =
   | {
@@ -62,6 +62,34 @@ export type CreateAssetFormState =
         type?: string[];
         serial_number?: string[];
         status?: string[];
+      };
+      message?: string;
+      success?: boolean;
+    }
+  | undefined;
+
+export const ReturnAssetFormSchema = z
+  .object({
+    id: z.number(),
+    return_condition: z.nativeEnum(AssetCondition),
+    description: z.string().optional(),
+  })
+  .superRefine(({ return_condition, description }, refinementContext) => {
+    if (return_condition != AssetCondition.GOOD && description === "") {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Required when condition is not good",
+        path: ["description"],
+      });
+    }
+  });
+
+export type ReturnAssetFormState =
+  | {
+      errors?: {
+        id?: string[];
+        return_condition?: string[];
+        description?: string[];
       };
       message?: string;
       success?: boolean;
