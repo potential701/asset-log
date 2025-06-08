@@ -4,8 +4,11 @@ import CreateAssetDialog from "@/app/(index)/asset/_components/create-asset-dial
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format, isAfter } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/session";
+import CheckOutButton from "@/app/(index)/asset/_components/check-out-button";
 
 export default async function Page() {
+  const session = await getSession();
   const assets = await db.query.asset.findMany({
     with: {
       issue: {
@@ -61,9 +64,9 @@ export default async function Page() {
                     : asset.log[0].user.name}
               </TableCell>
               <TableCell>{asset.log[0] === undefined ? "-" : asset.log[0].return_condition}</TableCell>
-              <TableCell className="w-24">
+              <TableCell className="w-40">
                 {asset.log[0] === undefined ? (
-                  <Button className="w-full">Check out</Button>
+                  <CheckOutButton userId={session!.id} assetId={asset.id} />
                 ) : (
                   <Button className="w-full" disabled>
                     Unavailable
