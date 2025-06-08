@@ -18,6 +18,8 @@ import {
 import DeleteAssetButton from "@/app/(index)/asset/[id]/delete-asset-button";
 import { getSession } from "@/lib/session";
 import { Role } from "@/lib/enums";
+import ResolveIssueButton from "@/app/(index)/asset/[id]/resolve-issue-button";
+import { Button } from "@/components/ui/button";
 
 export default async function Page({
   params,
@@ -210,7 +212,15 @@ export default async function Page({
                 <TableCell>{format(issue.reported_at, "dd/MM/yyyy HH:mm")}</TableCell>
                 <TableCell>{issue.description}</TableCell>
                 <TableCell>{issue.is_resolved ? "Yes" : "No"}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  {session?.role === Role.ADMIN ? (
+                    <ResolveIssueButton issueId={issue.id} assetId={+id} />
+                  ) : (
+                    <Button plain disabled>
+                      Unavailable
+                    </Button>
+                  )}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
