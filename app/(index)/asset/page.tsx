@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { format, isAfter } from "date-fns";
 import { getSession } from "@/lib/session";
 import CheckOutButton from "@/app/(index)/asset/_components/check-out-button";
-import { AssetStatus } from "@/lib/enums";
+import { AssetCondition, AssetStatus } from "@/lib/enums";
 import ReturnAssetDialog from "@/app/(index)/asset/_components/return-asset-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -70,7 +70,14 @@ export default async function Page() {
                     ? "-"
                     : asset.log[0].user.name}
               </TableCell>
-              <TableCell>{toTitleCase(asset.log[0] === undefined ? "-" : asset.log[0].return_condition)}</TableCell>
+              <TableCell>
+                {toTitleCase(
+                  asset.log[0] === undefined ||
+                    (asset.log[0].return_condition === AssetCondition.BROKEN && asset.status === AssetStatus.AVAILABLE)
+                    ? "-"
+                    : asset.log[0].return_condition,
+                )}
+              </TableCell>
               <TableCell className="w-40">
                 <ActionButton
                   userId={session!.id}
