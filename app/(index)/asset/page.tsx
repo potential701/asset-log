@@ -3,9 +3,13 @@ import { db } from "@/db/drizzle";
 import CreateAssetDialog from "@/app/(index)/asset/_components/create-asset-dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format, isAfter } from "date-fns";
-import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/session";
 import CheckOutButton from "@/app/(index)/asset/_components/check-out-button";
+import { AssetStatus } from "@/lib/enums";
+import ReturnAssetDialog from "@/app/(index)/asset/_components/return-asset-dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { toTitleCase } from "@/lib/string";
 
 export default async function Page() {
   const session = await getSession();
@@ -21,6 +25,7 @@ export default async function Page() {
         with: { user: { columns: { id: true, name: true } } },
       },
     },
+    orderBy: (asset, { asc }) => [asc(asset.id)],
   });
 
   return (
@@ -47,8 +52,10 @@ export default async function Page() {
             <TableRow key={asset.id}>
               <TableCell>{asset.id}</TableCell>
               <TableCell>{asset.name}</TableCell>
-              <TableCell>{asset.type}</TableCell>
-              <TableCell>{asset.status}</TableCell>
+              <TableCell>{toTitleCase(asset.type)}</TableCell>
+              <TableCell>
+                <StatusBadge status={asset.status} />
+              </TableCell>
               <TableCell>
                 {asset.log[0] === undefined
                   ? "-"
@@ -63,15 +70,14 @@ export default async function Page() {
                     ? "-"
                     : asset.log[0].user.name}
               </TableCell>
-              <TableCell>{asset.log[0] === undefined ? "-" : asset.log[0].return_condition}</TableCell>
+              <TableCell>{toTitleCase(asset.log[0] === undefined ? "-" : asset.log[0].return_condition)}</TableCell>
               <TableCell className="w-40">
-                {asset.log[0] === undefined ? (
-                  <CheckOutButton userId={session!.id} assetId={asset.id} />
-                ) : (
-                  <Button className="w-full" disabled>
-                    Unavailable
-                  </Button>
-                )}
+                <ActionButton
+                  userId={session!.id}
+                  assetId={asset.id}
+                  logId={asset.log[0]?.id}
+                  assetStatus={asset.status}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -79,4 +85,42 @@ export default async function Page() {
       </Table>
     </main>
   );
+}
+
+function ActionButton({
+  userId,
+  assetId,
+  logId,
+  assetStatus,
+}: {
+  userId: number;
+  assetId: number;
+  logId: number;
+  assetStatus: AssetStatus;
+}) {
+  switch (assetStatus) {
+    case AssetStatus.AVAILABLE:
+      return <CheckOutButton userId={userId} assetId={assetId} />;
+    case AssetStatus.BUSY:
+      return <ReturnAssetDialog logId={logId} />;
+    default:
+      return (
+        <Button plain disabled className="w-full">
+          Unavailable
+        </Button>
+      );
+  }
+}
+
+function StatusBadge({ status }: { status: AssetStatus }) {
+  switch (status) {
+    case AssetStatus.AVAILABLE:
+      return <Badge color="green">Available</Badge>;
+    case AssetStatus.BUSY:
+      return <Badge color="blue">Busy</Badge>;
+    case AssetStatus.MAINTENANCE:
+      return <Badge color="amber">Maintenance</Badge>;
+    default:
+      return <Badge color="red">{status}</Badge>;
+  }
 }
