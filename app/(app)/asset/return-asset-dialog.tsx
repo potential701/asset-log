@@ -2,7 +2,7 @@
 
 import Form from "next/form";
 import { useActionState, useEffect, useState } from "react";
-import { checkIn } from "@/app/(index)/asset/_actions/asset-actions";
+import { checkIn } from "@/app/(app)/asset/actions";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Description, Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { checkOut } from "@/app/(index)/asset/_actions/asset-actions";
+import { checkOut } from "@/app/(app)/asset/actions";
 import Form from "next/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

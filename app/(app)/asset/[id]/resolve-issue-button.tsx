@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertActions, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Form from "next/form";
 import { Input } from "@/components/ui/input";
-import { resolve } from "@/app/(index)/asset/_actions/asset-actions";
+import { resolve } from "@/app/(app)/asset/actions";
 import { toast } from "sonner";
 
 export default function ResolveIssueButton({ issueId, assetId }: { issueId: number; assetId: number }) {

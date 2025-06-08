@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { signup } from "@/app/auth/signup/_actions/signup-actions";
+import { signup } from "@/app/auth/signup/actions";
 import Form from "next/form";
 import { Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";

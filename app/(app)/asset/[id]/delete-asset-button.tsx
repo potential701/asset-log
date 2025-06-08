@@ -5,7 +5,7 @@ import { useActionState, useEffect, useState } from "react";
 import { Alert, AlertActions, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Form from "next/form";
 import { Input } from "@/components/ui/input";
-import { remove } from "@/app/(index)/asset/_actions/asset-actions";
+import { remove } from "@/app/(app)/asset/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
