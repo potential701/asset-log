@@ -15,6 +15,13 @@
       "when": 1749334336692,
       "tag": "0001_organic_terrax",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749366792945,
+      "tag": "0002_lazy_spirit",
+      "breakpoints": true
     }
   ]
 }

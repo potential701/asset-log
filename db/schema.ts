@@ -25,7 +25,7 @@ export const asset = pgTable("asset", {
   type: assetTypesEnum().notNull(),
   serial_number: text("serial_number").notNull().unique(),
   status: assetStatusesEnum().default(AssetStatus.AVAILABLE).notNull(),
-  created_at: timestamp("created_at", { withTimezone: true }),
+  created_at: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updated_at: timestamp("updated_at", { withTimezone: true }),
 });
 
@@ -37,7 +37,7 @@ export const log = pgTable("log", {
   user_id: integer("user_id")
     .references(() => user.id)
     .notNull(),
-  checked_out_at: timestamp("checked_out_at", { withTimezone: true }),
+  checked_out_at: timestamp("checked_out_at", { withTimezone: true }).notNull().defaultNow(),
   checked_in_at: timestamp("checked_in_at", { withTimezone: true }),
   return_condition: assetConditionsEnum(),
 });
@@ -50,7 +50,7 @@ export const issue = pgTable("issue", {
   user_id: integer("user_id")
     .references(() => user.id)
     .notNull(),
-  reported_at: timestamp("reported_at", { withTimezone: true }),
+  reported_at: timestamp("reported_at", { withTimezone: true }).notNull().defaultNow(),
   description: text("description").notNull(),
   is_resolved: boolean("is_resolved").default(false).notNull(),
 });
