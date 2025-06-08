@@ -10,7 +10,7 @@ import {
 import { asset, issue, log } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { revalidatePath } from "next/cache";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { AssetCondition, AssetStatus } from "@/lib/enums";
 import { redirect } from "next/navigation";
 
@@ -148,4 +148,33 @@ export async function remove(state: GenericFormState, formData: FormData) {
 
   revalidatePath("/asset");
   redirect("/asset");
+}
+
+export async function resolve(state: GenericFormState, formData: FormData) {
+  try {
+    const issueData = (
+      await db
+        .select()
+        .from(issue)
+        .where(eq(issue.id, +formData.get("id")!))
+    )[0];
+
+    await db
+      .update(issue)
+      .set({ is_resolved: true })
+      .where(eq(issue.id, +formData.get("id")!));
+
+    await db
+      .update(asset)
+      .set({ status: AssetStatus.AVAILABLE, updated_at: sql`now()` })
+      .where(and(eq(asset.id, issueData.asset_id), eq(asset.status, AssetStatus.MAINTENANCE)));
+
+    revalidatePath("/asset");
+    revalidatePath("/asset/" + formData.get("id"));
+  } catch {
+    return {
+      message: "There was an error resolving an asset issue. Please try again.",
+      success: false,
+    };
+  }
 }
