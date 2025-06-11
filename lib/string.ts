@@ -50,8 +50,8 @@ export function getInitials(input: string): string {
  */
 export function toFormattedNumber(
   input: number | string | null | undefined,
-  locale: string = 'en-US',
-  options: Intl.NumberFormatOptions = {}
+  locale: string = "en-GB",
+  options: Intl.NumberFormatOptions = {},
 ): string {
   // Handle null or undefined
   if (input === null || input === undefined) return "";
