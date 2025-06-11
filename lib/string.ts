@@ -57,7 +57,7 @@ export function toFormattedNumber(
   if (input === null || input === undefined) return "";
 
   // Convert string to number if needed
-  const num = typeof input === 'string' ? parseFloat(input) : input;
+  const num = typeof input === "string" ? parseFloat(input) : input;
 
   // Check if the result is a valid number
   if (isNaN(num)) return "";
