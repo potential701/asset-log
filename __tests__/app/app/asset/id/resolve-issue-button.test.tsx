@@ -2,8 +2,6 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ResolveIssueButton from "@/app/(app)/asset/[id]/resolve-issue-button";
 import { toast } from "sonner";
-import * as actions from "@/app/(app)/asset/actions";
-import * as AlertComponents from "@/components/ui/alert";
 
 // Mock the toast library
 jest.mock("sonner", () => ({
@@ -19,7 +17,6 @@ jest.mock("@/app/(app)/asset/actions", () => ({
 
 // Mock the Alert component
 jest.mock("@/components/ui/alert", () => {
-  const React = require("react");
   return {
     Alert: jest.fn(({ children, open, onClose }) => {
       if (!open) return null;
@@ -101,7 +98,7 @@ describe("ResolveIssueButton", () => {
 
     jest.spyOn(React, "useEffect").mockImplementation(() => {});
 
-    // @ts-ignore - we're mocking the hook
+    // @ts-expect-error - mocking the hook
     jest.spyOn(React, "useActionState").mockReturnValue(mockActionState);
 
     render(<ResolveIssueButton issueId={mockIssueId} assetId={mockAssetId} />);
@@ -168,7 +165,7 @@ describe("ResolveIssueButton", () => {
 
     jest.spyOn(React, "useEffect").mockImplementation(() => {});
 
-    // @ts-ignore - we're mocking the hook
+    // @ts-expect-error - mocking the hook
     jest.spyOn(React, "useActionState").mockReturnValue(mockActionState);
 
     render(<ResolveIssueButton issueId={mockIssueId} assetId={mockAssetId} />);
