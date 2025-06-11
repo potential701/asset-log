@@ -1,7 +1,7 @@
 /**
- * Converts a string to title case (first letter of each word capitalized)
+ * Converts a string to the title case (first letter of each word capitalized)
  * @param input The string to convert to title case
- * @returns The input string converted to title case
+ * @returns The input string converted to the title case
  */
 export function toTitleCase(input: string | null): string {
   if (input === null) return "";
@@ -44,7 +44,7 @@ export function getInitials(input: string): string {
 /**
  * Formats a number with commas and decimal places using Intl.NumberFormat
  * @param input The number or string to format
- * @param locale The locale to use for formatting (default: 'en-US')
+ * @param locale The locale to use for formatting (default: 'en-GB')
  * @param options The Intl.NumberFormatOptions to use for formatting
  * @returns The formatted number as a string
  */
