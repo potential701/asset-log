@@ -15,13 +15,8 @@ export default function DeleteAssetButton({ assetId }: { assetId: number }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.message && !state.success) {
+    if (state?.message) {
       toast.error(state.message);
-    }
-
-    if (state?.success) {
-      toast.success(state.message);
-      setIsOpen(false);
     }
   }, [state, router]);
 

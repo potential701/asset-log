@@ -13,7 +13,7 @@ export default function ResolveIssueButton({ issueId, assetId }: { issueId: numb
   const [state, action, pending] = useActionState(resolve, undefined);
 
   useEffect(() => {
-    if (state?.message && !state.success) {
+    if (state?.message) {
       toast.error(state.message);
     }
   }, [state]);
