@@ -13,6 +13,7 @@ import { revalidatePath } from "next/cache";
 import { and, eq, sql } from "drizzle-orm";
 import { AssetCondition, AssetStatus } from "@/lib/enums";
 import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
 
 export async function create(state: CreateAssetFormState, formData: FormData) {
   try {
@@ -36,24 +37,24 @@ export async function create(state: CreateAssetFormState, formData: FormData) {
 
     revalidatePath("/asset");
     return {
-      errors: undefined,
       message: "New asset created successfully. You can now view it in assets.",
       success: true,
     };
   } catch {
     return {
-      errors: undefined,
       message: "There was an error adding a new asset. Please ensure it does not exist already.",
-      success: false,
     };
   }
 }
 
 export async function checkOut(state: GenericFormState, formData: FormData) {
   try {
+    const session = await getSession();
+    if (!session) throw new Error();
+
     const newLog: typeof log.$inferInsert = {
       asset_id: formData.get("asset_id") as unknown as number,
-      user_id: formData.get("user_id") as unknown as number,
+      user_id: session.id,
     };
 
     await db.insert(log).values(newLog);
@@ -61,6 +62,7 @@ export async function checkOut(state: GenericFormState, formData: FormData) {
       .update(asset)
       .set({ status: AssetStatus.BUSY, updated_at: sql`now()` })
       .where(eq(asset.id, newLog.asset_id));
+
     revalidatePath("/asset");
     return {
       message: "Asset checked out successfully. Please check it back in when returning.",
@@ -69,7 +71,6 @@ export async function checkOut(state: GenericFormState, formData: FormData) {
   } catch {
     return {
       message: "There was an error checking out an asset. Please try again.",
-      success: false,
     };
   }
 }
@@ -85,7 +86,6 @@ export async function checkIn(state: ReturnAssetFormState, formData: FormData) {
     if (!validatedFields.success) {
       return {
         errors: validatedFields.error.flatten().fieldErrors,
-        success: false,
       };
     }
 
@@ -93,7 +93,7 @@ export async function checkIn(state: ReturnAssetFormState, formData: FormData) {
 
     await db
       .update(log)
-      .set({ checked_in_at: sql`now()`, return_condition: validatedFields.data.return_condition as AssetCondition })
+      .set({ checked_in_at: sql`now()`, return_condition: validatedFields.data.return_condition })
       .where(eq(log.id, validatedFields.data.id));
 
     await db
@@ -131,7 +131,6 @@ export async function checkIn(state: ReturnAssetFormState, formData: FormData) {
   } catch {
     return {
       message: "There was an error returning an asset. Please try again.",
-      success: false,
     };
   }
 }
@@ -142,7 +141,6 @@ export async function remove(state: GenericFormState, formData: FormData) {
   } catch {
     return {
       message: "There was an error removing an asset. Please try again.",
-      success: false,
     };
   }
 
@@ -174,7 +172,6 @@ export async function resolve(state: GenericFormState, formData: FormData) {
   } catch {
     return {
       message: "There was an error resolving an asset issue. Please try again.",
-      success: false,
     };
   }
 }

@@ -17,6 +17,9 @@ const customJestConfig = {
     '<rootDir>/node_modules/',
     '<rootDir>/.next/',
   ],
+  transformIgnorePatterns: [
+    '/node_modules/(?!jose)/',
+  ],
   transform: {
     // Use babel-jest to transpile tests with the next/babel preset
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',

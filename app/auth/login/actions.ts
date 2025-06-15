@@ -17,7 +17,6 @@ export async function login(state: LoginFormState, formData: FormData) {
     if (!validatedFields.success) {
       return {
         errors: validatedFields.error.flatten().fieldErrors,
-        success: false,
       };
     }
 
@@ -40,15 +39,12 @@ export async function login(state: LoginFormState, formData: FormData) {
       .where(eq(user.id, foundUser.id));
 
     return {
-      errors: undefined,
       message: "Logged in successfully.",
       success: true,
     };
   } catch {
     return {
-      errors: undefined,
       message: "Invalid username or password. Please try again.",
-      success: false,
     };
   }
 }
