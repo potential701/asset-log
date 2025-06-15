@@ -15,6 +15,11 @@ jest.mock("next/cache", () => ({
   revalidatePath: jest.fn(),
 }));
 
+// Mock lib/session
+jest.mock("@/lib/session", () => ({
+  getSession: jest.fn().mockResolvedValue({ id: 1, email: "test@example.com" }),
+}));
+
 describe("Asset Actions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -47,7 +52,6 @@ describe("Asset Actions", () => {
 
       // Check the result
       expect(result).toEqual({
-        errors: undefined,
         message: "New asset created successfully. You can now view it in assets.",
         success: true,
       });
@@ -91,9 +95,7 @@ describe("Asset Actions", () => {
 
       // Check the result
       expect(result).toEqual({
-        errors: undefined,
         message: "There was an error adding a new asset. Please ensure it does not exist already.",
-        success: false,
       });
     });
   });

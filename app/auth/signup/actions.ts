@@ -17,7 +17,6 @@ export async function signup(state: SignupFormState, formData: FormData): Promis
     if (!validatedFields.success) {
       return {
         errors: validatedFields.error.flatten().fieldErrors,
-        success: false,
       };
     }
 
@@ -28,24 +27,19 @@ export async function signup(state: SignupFormState, formData: FormData): Promis
     const data = await db.select().from(user).where(eq(user.name, validatedFields.data.name));
     if (data.length > 0) {
       return {
-        errors: undefined,
         message: "A user with this name already exists. Please enter a different name.",
-        success: false,
       };
     }
 
     await db.insert(user).values(newUser);
 
     return {
-      errors: undefined,
       message: "New user created successfully. You may now login to your account.",
       success: true,
     };
   } catch {
     return {
-      errors: undefined,
       message: "Error creating your account. Please try again.",
-      success: false,
     };
   }
 }
